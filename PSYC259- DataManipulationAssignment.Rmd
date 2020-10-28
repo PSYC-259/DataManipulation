@@ -1,0 +1,17 @@
+---
+title: "PSYC259- DataManipulationAssignment"
+author: "Amanda Mae Woodward"
+date: "10/28/2020"
+output: html_document
+---
+
+1.Open the sleep dataset in R 
+2. Is it long or wide format? How do you know? 
+3. Transform this data so that it is in the other format. 
+4. Transform your data back to its original format. 
+5. Open the Starwars dataset
+6. Create homeworld as a factor. How many levels does it have? 
+7. Reorder homeworld so that Naboo is the reference group. 
+8. Use mutate to create a column transforming kg to pounds. (hint: you may need to look up the conversion)
+9. Print a summary of your column from #8
+
