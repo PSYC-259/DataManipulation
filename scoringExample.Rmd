@@ -1,0 +1,146 @@
+---
+title: "ScoringSocEvalFeedQs"
+output: html_document
+---
+
+```{r}
+library(psych)
+library(dplyr)
+library(tidyr)
+```
+
+```{r}
+indDiff <- read.csv("~/Downloads/compMotRaw.csv")
+attach(indDiff)
+```
+
+Self-Concept Clarity Scale
+```{r}
+# Reverse code Self-Concept Clarity Scale items
+SCC_revcols = c("SCC_1", "SCC_2", "SCC_3", "SCC_4", "SCC_5", "SCC_7", 
+                 "SCC_8", "SCC_9", "SCC_10", "SCC_12")
+indDiff[ ,SCC_revcols] = 6 - indDiff[ ,SCC_revcols]
+ind1 <- grep("^SCC_1$", colnames(indDiff))
+ind2<- grep("^SCC_12$", colnames(indDiff))
+# Compute score for Self-Concept Clarity Scale items
+indDiff$SCC = rowMeans(indDiff[,ind1:ind2], na.rm = TRUE)
+
+psych::alpha(indDiff[ind1:ind2])
+```
+Singelis Self-Construal
+```{r}
+# Compute score for Independence in Singelis Self-Construal Scale
+SING.IndCol = c("SING.1", "SING.2", "SING.5", "SING.7", "SING.9", "SING.10", "SING.13", 
+                 "SING.15", "SING.18", "SING.20", "SING.22", "SING.24", "SING.25",
+                 "SING.27", "SING.29")
+indDiff$SING.Ind = rowMeans(indDiff[, SING.IndCol], na.rm = TRUE)
+# Compute score for Interdependence in Singelis Self-Construal Scale
+SING.InterCol = c("SING.3", "SING.4", "SING.6", "SING.8", "SING.11", "SING.12", 
+                   "SING.14", "SING.16", "SING.17", "SING.19", "SING.21", "SING.23",
+                   "SING.26", "SING.28", "SING.30")
+indDiff$SING.Inter = rowMeans(indDiff[, SING.InterCol], na.rm = TRUE)
+# Compute score for Independence - Interdependence in Singelis Self-Construal Scale
+indDiff$SING.IndPlus = (indDiff$SING.Ind - indDiff$SING.Inter)
+
+psych::alpha(indDiff[SING.InterCol])
+psych::alpha(indDiff[SING.IndCol])
+```
+Self-Esteem
+```{r}
+# Reverse code Rosenberg Self-Esteem items
+SErevcols = c("RSE.2", "RSE.5", "RSE.6", "RSE.8", "RSE.9")
+indDiff[ ,SErevcols] = 5 - indDiff[ ,SErevcols]
+ind1 <- grep("^RSE.1$", colnames(indDiff))
+ind2<- grep("^RSE.10$", colnames(indDiff))
+# Compute scores for Rosenberg Self-Esteem
+indDiff$SE = rowMeans(indDiff[, ind1:ind2], na.rm = TRUE)
+
+psych::alpha(indDiff[ind1:ind2])
+```
+
+```{r}
+# Reverse code Need for Cog items
+NFCrevcols = c("NFC.6_3", "NFC.6_4")
+indDiff[ ,NFCrevcols] = 8 - indDiff[ ,NFCrevcols]
+ind1 <- grep("^NFC.6_1$", colnames(indDiff))
+ind2<- grep("^NFC.6_6$", colnames(indDiff))
+# Compute scores for Need for Cog
+indDiff$NFC = rowMeans(indDiff[, ind1:ind2], na.rm = TRUE)
+
+psych::alpha(indDiff[ind1:ind2])
+```
+
+```{r}
+# Reverse code Need for Cog items
+ENTrevcols = c("Ent2", "Ent3", "Ent6", "Ent7")
+indDiff[ ,ENTrevcols] = 11 - indDiff[ ,ENTrevcols]
+ind1 <- grep("^Ent1$", colnames(indDiff))
+ind2<- grep("^Ent9$", colnames(indDiff))
+# Compute scores for Need for Cog
+indDiff$ENT = rowMeans(indDiff[, ind1:ind2], na.rm = TRUE)
+
+psych::alpha(indDiff[ind1:ind2])
+```
+
+```{r}
+# Reverse code Need for Cog items
+NTBrevcols = c("NTB_1", "NTB_3", "NTB_7")
+indDiff[ ,NTBrevcols] = 6 - indDiff[ ,NTBrevcols]
+ind1 <- grep("^NTB_1$", colnames(indDiff))
+ind1<-min(ind1)
+ind2<- grep("^NTB_10$", colnames(indDiff))
+ind2<-max(ind2)
+# Compute scores for Need for Cog
+indDiff$NTB = rowMeans(indDiff[, ind1:ind2], na.rm = TRUE)
+
+psych::alpha(indDiff[ind1:ind2])
+```
+
+```{r}
+# Reverse code Need for Cog items
+DSrevcols = c("DS_1", "DS_5", "DS_6", "DS_7", "DS_9", "DS_14")
+indDiff[ ,DSrevcols] = 8 - indDiff[ ,DSrevcols]
+ind1 <- grep("^DS_1$", colnames(indDiff))
+ind2<- grep("^DS_10$", colnames(indDiff))
+# Compute scores for Need for Cog
+indDiff$DS = rowMeans(indDiff[, ind1:ind2], na.rm = TRUE)
+
+psych::alpha(indDiff[ind1:ind2])
+```
+
+```{r}
+attach(indDiff)
+# Reverse code Collective Self-Esteem items (2, 4, 5, 7, 10 ,12, 13, 15)
+CSErevcols = c("CSE2", "CSE4", "CSE5", "CSE7", "CSE10", "CSE12", "CSE13", "CSE15")
+indDiff[ ,CSErevcols] = 8 - indDiff[ ,CSErevcols]
+# Compute score for Membership Self-Esteem
+MemSEcols = c("CSE1", "CSE5", "CSE9", "CSE10")
+indDiff$MemSE = rowMeans(indDiff[, MemSEcols], na.rm = TRUE)
+alpha(indDiff[,MemSEcols])
+# Compute score for Private Collective Self-Esteem
+PrivCSEcols = c("CSE2", "CSE6", "CSE10", "CSE14")
+indDiff$PrivCSE = rowMeans(indDiff[, PrivCSEcols], na.rm = TRUE)
+alpha(indDiff[,PrivCSEcols])
+# Compute score for Public Collective Self-Esteem
+PubCSEcols = c("CSE3", "CSE7", "CSE11", "CSE15")
+indDiff$PubCSE = rowMeans(indDiff[, PubCSEcols], na.rm = TRUE)
+alpha(indDiff[,PubCSEcols])
+# Compute score for Importance to Identity
+IdImpcols = c("CSE4", "CSE8", "CSE12", "CSE16")
+indDiff$IdImp = rowMeans(indDiff[, IdImpcols], na.rm = TRUE)
+alpha(indDiff[,IdImpcols])
+```
+
+```{r}
+ind1<-grep("SGO2_1",colnames(indDiff))
+ind2<-grep("SGO2_7",colnames(indDiff))
+for(i in 1:nrow(indDiff)){
+  indDiff$SGO[i] <- grep("On", as.matrix(indDiff[i,ind1:ind2]))
+}
+
+SGO <- grep("On", as.matrix(indDiff[,ind1:ind2]))
+```
+
+```{r}
+write.csv(indDiff, file = "~/Downloads/CompMot_Scored.csv", row.names = FALSE)
+```
